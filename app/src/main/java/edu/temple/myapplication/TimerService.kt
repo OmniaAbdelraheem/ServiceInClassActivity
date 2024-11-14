@@ -115,6 +115,7 @@ class TimerService : Service() {
 
         Log.d("TimerService status", "Destroyed")
     }
-
+//define the service connection object, make the button changing from start -> pause when u started and the timer has to be running
+//the same button has to get changed from pause to start when u pause
 
 }
