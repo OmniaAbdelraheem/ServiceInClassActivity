@@ -20,12 +20,16 @@ class MainActivity : AppCompatActivity() {
     private var timerService: TimerService.TimerBinder? = null
     private var isBound = false
 
+    private val timeHandler = Handler(Looper.getMainLooper()) { msg ->
+        timerTextView.text = msg.what.toString()
+        true
+    }
 
     private val serviceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName, service: IBinder) {
             timerService = service as TimerService.TimerBinder
             isBound = true
-
+            timerService?.setHandler(timeHandler)
         }
 
         override fun onServiceDisconnected(name: ComponentName) {
@@ -46,6 +50,7 @@ class MainActivity : AppCompatActivity() {
                 if (timerService?.isRunning == true) {
                     timerService?.pause()
                     startButton.text = "Start"
+
                 } else {
                     timerService?.start(60)
                     startButton.text = "Pause"
